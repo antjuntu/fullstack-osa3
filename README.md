@@ -1,2 +1,1 @@
-# fullstack-osa3
-Backend puhelinluettelolle (joka on repositoriossa antjuntu/fullstack-osa2)
+https://shielded-coast-83117.herokuapp.com
