@@ -1,0 +1,7 @@
+POST https://shielded-coast-83117.herokuapp.com/api/persons
+Content-Type: application/json
+
+{
+  "name": "Sauli Niinistö",
+  "number": "040-98765432"
+}
