@@ -64,21 +64,23 @@ app.post('/api/persons', (req, res) => {
     })
   }
 
-  const duplicate = persons.find(person => person.name === name)
-  if (duplicate) {
-    return res.status(400).json({
-      error: 'name must be unique'
-    })
-  }
+  // const duplicate = persons.find(person => person.name === name)
+  // if (duplicate) {
+  //   return res.status(400).json({
+  //     error: 'name must be unique'
+  //   })
+  // }
 
-  const person = {
-    id: Math.floor(Math.random() * 10000000) + 1,
+  const person = new Person({
     name,
     number
-  }
+  })
 
-  persons = persons.concat(person)
-  res.json(person)
+  person
+    .save()
+    .then(savedPerson => {
+      res.json(savedPerson.toJSON())
+    })
 })
 
 const PORT = process.env.PORT || 3001
