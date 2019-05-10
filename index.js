@@ -21,28 +21,37 @@ morgan.token('body', (req, res) => {
 app.use(morgan(':method :url :status :res[content-length] - :response-time ms :body'))
 
 
-app.get('/api/persons', (req, res) => {
+app.get('/api/persons', (req, res, next) => {
   Person
     .find({})
     .then(persons => {
       res.json(persons.map(person => person.toJSON()))
     })
+    .catch(error => next(error))
 })
 
-app.get('/info', (req, res) => {
-  res.send(`<div><p>puhelinluettelossa ${persons.length} henkilön tiedot<p><p>${new Date().toString()}</p></div>`)
+app.get('/info', (req, res, next) => {
+  Person
+    .find({})
+    .then(result => {
+      const len = result.length
+      //console.log(len)
+      res.send(`<div><p>puhelinluettelossa ${len} henkilön tiedot<p><p>${new Date().toString()}</p></div>`)
+    })
+    .catch(error => next(error))
 })
 
-app.get('/api/persons/:id', (req, res) => {
-  //console.log(req.params.id)
-  const id = Number(req.params.id)
-  const person = persons.find(person => person.id === id)
-
-  if (person) {
-    res.json(person)
-  } else {
-    res.status(404).end()
-  }
+app.get('/api/persons/:id', (req, res, next) => {
+  Person
+    .findById(req.params.id)
+    .then(person => {
+      if (person) {
+        res.json(person.toJSON())
+      } else {
+        res.status(404).end()
+      }
+    })
+    .catch(error => next(error))
 })
 
 app.delete('/api/persons/:id', (req, res, next) => {
