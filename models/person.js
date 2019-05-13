@@ -15,28 +15,28 @@ mongoose
     console.log('error connecting to MongoDB:', error.message)
   })
 
-  const personSchema = new mongoose.Schema({
-    name: {
-      type: String,
-      required: true,
-      unique: true,
-      minlength: 3
-    },
-    number: {
-      type: String,
-      required: true,
-      minlength: 8
-    }
-  })
+const personSchema = new mongoose.Schema({
+  name: {
+    type: String,
+    required: true,
+    unique: true,
+    minlength: 3
+  },
+  number: {
+    type: String,
+    required: true,
+    minlength: 8
+  }
+})
 
-  personSchema.plugin(uniqueValidator)
+personSchema.plugin(uniqueValidator)
 
-  personSchema.set('toJSON', {
-    transform: (doc, ret) => {
-      ret.id = ret._id.toString()
-      delete ret._id
-      delete ret.__v
-    }
-  })
+personSchema.set('toJSON', {
+  transform: (doc, ret) => {
+    ret.id = ret._id.toString()
+    delete ret._id
+    delete ret.__v
+  }
+})
 
-  module.exports = mongoose.model('Person', personSchema)
+module.exports = mongoose.model('Person', personSchema)
